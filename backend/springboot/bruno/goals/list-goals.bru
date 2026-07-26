@@ -1,0 +1,16 @@
+meta {
+  name: List my goals
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{base_url}}/goals
+  body: none
+  auth: none
+}
+
+docs {
+  Requires being logged in (run auth/verify-otp first). Returns every goal
+  belonging to the authenticated user.
+}

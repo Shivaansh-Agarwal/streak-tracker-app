@@ -1,0 +1,21 @@
+meta {
+  name: Public logs by month
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{base_url}}/public/{{username}}/logs?year={{log_year}}&month={{log_month}}
+  body: none
+  auth: none
+}
+
+params:query {
+  year: {{log_year}}
+  month: {{log_month}}
+}
+
+docs {
+  No auth required. Same shape as logs/list-logs-by-month, but for whichever
+  public username you pass.
+}

@@ -1,0 +1,33 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run *)",
+      "Bash(curl -s -o /dev/null -w \"landing: %{http_code}\\\\n\" http://localhost:3000/)",
+      "Bash(curl -s -o /dev/null -w \"login: %{http_code}\\\\n\" http://localhost:3000/login)",
+      "Bash(curl -s -i -X POST http://localhost:3000/api/auth/login -H \"Content-Type: application/json\" -d '{\"email\":\"shivanshagrawal1997@gmail.com\"}')",
+      "Bash(kill %1)",
+      "Bash(jobs)",
+      "Bash(curl -s -i -X POST http://localhost:3000/api/auth/verify-otp -H \"Content-Type: application/json\" -d '{\"email\":\"shivanshagrawal1997@gmail.com\",\"otp\":\"473216\"}')",
+      "Bash(git mv *)",
+      "Bash(python3 -c ' *)",
+      "Bash(pkill -f \"next dev\")",
+      "Bash(curl -s -o /dev/null -w \"%{http_code} -> %{redirect_url}\\\\n\" http://localhost:3000/dashboard)",
+      "Bash(curl -s -c /tmp/cookies.txt -X POST http://localhost:3000/api/auth/login -H \"Content-Type: application/json\" -d '{\"email\":\"shivanshagrawal1997@gmail.com\"}' -o /dev/null -w \"%{http_code}\\\\n\")",
+      "Bash(curl -s -b /tmp/cookies.txt -c /tmp/cookies.txt -X POST http://localhost:3000/api/auth/verify-otp -H \"Content-Type: application/json\" -d '{\"email\":\"shivanshagrawal1997@gmail.com\",\"otp\":\"569121\"}')",
+      "Bash(curl -s -b /tmp/cookies.txt http://localhost:3000/dashboard)",
+      "Bash(curl -s -b /tmp/cookies.txt -c /tmp/cookies.txt -X PATCH http://localhost:3000/api/users/me -H \"Content-Type: application/json\" -d '{\"username\":\"shivansh\",\"fullName\":\"Shivansh Agrawal\"}')",
+      "Bash(curl -s -o /dev/null -w \"delete log: %{http_code}\\\\n\" -b /tmp/cookies.txt -X DELETE http://localhost:3000/api/logs/1)",
+      "Bash(curl -s -o /dev/null -w \"delete goal: %{http_code}\\\\n\" -b /tmp/cookies.txt -X DELETE http://localhost:3000/api/goals/1)",
+      "Bash(rm -f /tmp/cookies.txt /tmp/resp.json /tmp/resp2.json)",
+      "Bash(docker exec springboot-mysql-1 mysql -uroot -proot progress_tracker -e ' *)",
+      "Bash(docker compose *)",
+      "Bash(curl -s -o /dev/null -w \"landing: %{http_code}\\\\nlogin: %{http_code}\\\\n\" http://localhost:3000/ http://localhost:3000/login)",
+      "Bash(npx --no-install playwright --version)",
+      "Bash(curl -s http://localhost:3000/u/nobody-here)",
+      "Bash(curl *)",
+      "Bash(docker exec springboot-mysql-1 *)",
+      "Bash(javap -p -c 'target/classes/com/progresstracker/entity/User$UserBuilder.class')",
+      "Bash(javap -p target/classes/com/progresstracker/entity/User.class)"
+    ]
+  }
+}

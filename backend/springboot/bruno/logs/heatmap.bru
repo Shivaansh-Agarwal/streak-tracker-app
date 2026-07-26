@@ -1,0 +1,21 @@
+meta {
+  name: Heatmap (year)
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{base_url}}/logs/heatmap?year={{log_year}}
+  body: none
+  auth: none
+}
+
+params:query {
+  year: {{log_year}}
+}
+
+docs {
+  Returns one entry per day of the year with hours logged that day (0 for
+  days with no logs) - the data behind the GitHub-style contribution
+  heatmap.
+}

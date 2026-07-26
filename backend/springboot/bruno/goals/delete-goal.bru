@@ -1,0 +1,20 @@
+meta {
+  name: Delete goal
+  type: http
+  seq: 4
+}
+
+delete {
+  url: {{base_url}}/goals/:id
+  body: none
+  auth: none
+}
+
+params:path {
+  id: {{goal_id}}
+}
+
+docs {
+  Deletes the goal. Fails with 409 Conflict if any log entries still
+  reference it (see GoalService.delete) - delete/reassign those logs first.
+}

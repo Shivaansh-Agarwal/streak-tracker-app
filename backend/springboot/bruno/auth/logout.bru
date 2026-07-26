@@ -1,0 +1,16 @@
+meta {
+  name: Logout
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{base_url}}/auth/logout
+  body: none
+  auth: none
+}
+
+docs {
+  Revokes the current refresh_token (if any) and clears both cookies.
+  Run this last to end the session cleanly.
+}

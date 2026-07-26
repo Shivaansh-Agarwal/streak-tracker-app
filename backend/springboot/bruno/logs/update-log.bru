@@ -1,0 +1,30 @@
+meta {
+  name: Update log entry
+  type: http
+  seq: 4
+}
+
+patch {
+  url: {{base_url}}/logs/:id
+  body: json
+  auth: none
+}
+
+params:path {
+  id: {{log_id}}
+}
+
+body:json {
+  {
+    "goalId": {{goal_id}},
+    "description": "Read chapter 3 of the Rust book (updated)",
+    "startTime": "{{log_start_time}}",
+    "endTime": "{{log_end_time}}",
+    "timezone": "Asia/Kolkata"
+  }
+}
+
+docs {
+  Same validation rules as create - only succeeds if log_id belongs to the
+  authenticated user.
+}

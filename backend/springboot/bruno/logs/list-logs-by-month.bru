@@ -1,0 +1,21 @@
+meta {
+  name: List logs by month
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{base_url}}/logs?year={{log_year}}&month={{log_month}}
+  body: none
+  auth: none
+}
+
+params:query {
+  year: {{log_year}}
+  month: {{log_month}}
+}
+
+docs {
+  Returns all log entries for the authenticated user within that
+  year/month, ordered by start time.
+}

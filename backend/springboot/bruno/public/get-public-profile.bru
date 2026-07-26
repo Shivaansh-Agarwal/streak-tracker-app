@@ -1,0 +1,18 @@
+meta {
+  name: Get public profile
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{base_url}}/public/{{username}}
+  body: none
+  auth: none
+}
+
+docs {
+  No auth required - anyone can view this. Returns 404 if the username
+  doesn't exist OR exists but isPublic is false (same response either way,
+  deliberately, so a private username's existence isn't confirmed - see
+  PublicProfileService.findVisibleUser).
+}

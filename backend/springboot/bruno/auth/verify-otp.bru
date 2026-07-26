@@ -1,0 +1,30 @@
+meta {
+  name: Verify OTP (log in)
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{base_url}}/auth/verify-otp
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "email": "{{test_email}}",
+    "otp": "{{otp}}"
+  }
+}
+
+docs {
+  Verifies the code and, on success, issues access_token/refresh_token as
+  httpOnly cookies (Set-Cookie) - Bruno's cookie jar stores these
+  automatically, so every request after this one in this environment is
+  already authenticated, exactly like a browser session.
+
+  Update the `otp` environment variable with the real code from your inbox
+  before running this - the default `000000` will fail.
+
+  Response body: { "status": "PENDING_PROFILE" | "ACTIVE" }
+}

@@ -1,0 +1,16 @@
+meta {
+  name: Get my profile
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{base_url}}/users/me
+  body: none
+  auth: none
+}
+
+docs {
+  Returns the authenticated user's own profile - status will be
+  PENDING_PROFILE until username + fullName are both set via update-profile.
+}

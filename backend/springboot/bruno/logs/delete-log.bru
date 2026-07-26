@@ -1,0 +1,19 @@
+meta {
+  name: Delete log entry
+  type: http
+  seq: 5
+}
+
+delete {
+  url: {{base_url}}/logs/:id
+  body: none
+  auth: none
+}
+
+params:path {
+  id: {{log_id}}
+}
+
+docs {
+  Deletes the log entry (only if owned by the authenticated user).
+}

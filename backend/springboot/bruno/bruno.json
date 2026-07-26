@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "Progress Tracker API",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}

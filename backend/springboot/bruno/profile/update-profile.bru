@@ -1,0 +1,30 @@
+meta {
+  name: Update my profile
+  type: http
+  seq: 2
+}
+
+patch {
+  url: {{base_url}}/users/me
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "username": "{{username}}",
+    "fullName": "Test User",
+    "profilePictureUrl": null,
+    "isPublic": true
+  }
+}
+
+docs {
+  All fields are optional - only non-null fields are applied (see
+  UpdateProfileRequest). Setting both username and fullName for the first
+  time flips status from PENDING_PROFILE to ACTIVE. username must be
+  3-50 chars, lowercase letters/numbers/hyphens/underscores only, and not
+  already taken or reserved (see app.username.reserved in
+  application.properties). Setting isPublic: true is required for the
+  public/ requests below to work.
+}

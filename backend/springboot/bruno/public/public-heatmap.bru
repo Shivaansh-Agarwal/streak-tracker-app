@@ -1,0 +1,20 @@
+meta {
+  name: Public heatmap
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{base_url}}/public/{{username}}/heatmap?year={{log_year}}
+  body: none
+  auth: none
+}
+
+params:query {
+  year: {{log_year}}
+}
+
+docs {
+  No auth required. Same shape as logs/heatmap, but for whichever public
+  username you pass, and only works if that user has isPublic: true.
+}

@@ -1,0 +1,36 @@
+meta {
+  name: Create log entry
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{base_url}}/logs
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "goalId": {{goal_id}},
+    "description": "Read chapter 3 of the Rust book",
+    "startTime": "{{log_start_time}}",
+    "endTime": "{{log_end_time}}",
+    "timezone": "Asia/Kolkata"
+  }
+}
+
+script:post-response {
+  if (res.body && res.body.id) {
+    bru.setEnvVar("log_id", res.body.id);
+  }
+}
+
+docs {
+  Requires goal_id to point at a goal you own (run goals/create-goal first).
+  startTime/endTime must be in the past, endTime after startTime, and within
+  app.log.max-backdate-days (30) of today - adjust log_start_time/
+  log_end_time in the environment if these defaults have gone stale.
+  Also rejects overlapping time ranges for the same user (see
+  LogService.rejectIfOverlapping).
+}

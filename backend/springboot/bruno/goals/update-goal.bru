@@ -1,0 +1,26 @@
+meta {
+  name: Update goal
+  type: http
+  seq: 3
+}
+
+patch {
+  url: {{base_url}}/goals/:id
+  body: json
+  auth: none
+}
+
+params:path {
+  id: {{goal_id}}
+}
+
+body:json {
+  {
+    "title": "Learn Rust (updated)"
+  }
+}
+
+docs {
+  Renames the goal. Only succeeds if `goal_id` belongs to the authenticated
+  user - otherwise 404 (see GoalService.findOwnedGoal).
+}

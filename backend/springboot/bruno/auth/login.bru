@@ -1,0 +1,26 @@
+meta {
+  name: Login (send OTP)
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{base_url}}/auth/login
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "email": "{{test_email}}"
+  }
+}
+
+docs {
+  Creates the user (if they don't exist yet, as PENDING_PROFILE) and emails
+  a 6-digit OTP to test_email via whatever SMTP provider is configured.
+
+  Next step: check the inbox (or your SMTP provider's dashboard, e.g.
+  Resend's logs) for the code, then set the `otp` environment variable to
+  it before running "Verify OTP".
+}

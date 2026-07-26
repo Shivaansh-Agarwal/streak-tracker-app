@@ -1,0 +1,29 @@
+meta {
+  name: Create goal
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{base_url}}/goals
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "title": "Learn Rust"
+  }
+}
+
+script:post-response {
+  if (res.body && res.body.id) {
+    bru.setEnvVar("goal_id", res.body.id);
+  }
+}
+
+docs {
+  Creates a goal owned by the authenticated user. The post-response script
+  saves the new goal's id into the `goal_id` env var, so
+  update-goal/delete-goal and create-log below can reuse it automatically.
+}

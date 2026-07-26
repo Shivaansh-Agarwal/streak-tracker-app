@@ -1,0 +1,18 @@
+meta {
+  name: Refresh tokens
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{base_url}}/auth/refresh
+  body: none
+  auth: none
+}
+
+docs {
+  Reads the refresh_token cookie, rotates it (old one revoked, new one
+  issued), and issues a fresh access_token + refresh_token pair as cookies.
+  Requires having run "Verify OTP" first in this environment so the cookie
+  jar actually has a refresh_token to send.
+}
