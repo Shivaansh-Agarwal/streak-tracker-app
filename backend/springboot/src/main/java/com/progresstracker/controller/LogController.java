@@ -4,6 +4,7 @@ import com.progresstracker.dto.HeatmapDayResponse;
 import com.progresstracker.dto.LogRequest;
 import com.progresstracker.dto.LogResponse;
 import com.progresstracker.security.AuthenticatedUser;
+import com.progresstracker.security.DemoAccountGuard;
 import com.progresstracker.service.LogService;
 import jakarta.validation.Valid;
 import java.util.List;
@@ -24,9 +25,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class LogController {
 
     private final LogService logService;
+    private final DemoAccountGuard demoAccountGuard;
 
-    public LogController(LogService logService) {
+    public LogController(LogService logService, DemoAccountGuard demoAccountGuard) {
         this.logService = logService;
+        this.demoAccountGuard = demoAccountGuard;
     }
 
     @GetMapping
@@ -45,6 +48,7 @@ public class LogController {
 
     @PostMapping
     public LogResponse create(@AuthenticationPrincipal AuthenticatedUser user, @Valid @RequestBody LogRequest request) {
+        demoAccountGuard.assertNotReadonly(user);
         return logService.create(user.id(), request);
     }
 
@@ -53,11 +57,13 @@ public class LogController {
             @AuthenticationPrincipal AuthenticatedUser user,
             @PathVariable Long id,
             @Valid @RequestBody LogRequest request) {
+        demoAccountGuard.assertNotReadonly(user);
         return logService.update(user.id(), id, request);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@AuthenticationPrincipal AuthenticatedUser user, @PathVariable Long id) {
+        demoAccountGuard.assertNotReadonly(user);
         logService.delete(user.id(), id);
         return ResponseEntity.noContent().build();
     }

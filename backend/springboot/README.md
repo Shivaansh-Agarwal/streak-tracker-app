@@ -72,6 +72,9 @@ Env File: `src/main/resources/application.properties`
 | `RESEND_API_KEY` | *(empty)* | API key for Resend's Java SDK, used to send OTP emails (see [QnA.md](docs/QnA.md#email--smtp)) |
 | `MAIL_FROM` | `onboarding@resend.dev` | The "From" address recipients see. The default is Resend's built-in test sender - it works without any domain verification, but only delivers to your own Resend account's email. Swap for a `noreply@yourdomain.com`-style address once you've verified a domain. |
 | `LOG_MAX_BACKDATE_DAYS` | `30` | How many days back a log entry can be dated |
+| `DEMO_ACCOUNTS` | *(empty)* | Comma-separated emails that log in with a fixed OTP (`123456`) instead of a real emailed code — no real email is sent for these. Only set this on a deployment meant to host a public demo. |
+| `DEMO_READONLY_ACCOUNTS` | *(empty)* | Comma-separated subset of `DEMO_ACCOUNTS` that are blocked from any create/update/delete (goals, logs, profile) — `403` with "This is a read-only demo account". Keeps a curated showcase account from being edited by visitors. |
+| `ADMIN_SEED_KEY` | *(empty)* | Shared secret required (as an `X-Admin-Key` header) to call `POST /admin/seed-demo-data`, which wipes and rebuilds the `johndoe`/`janedoe` demo accounts' goals and logs. Blank means the endpoint always rejects requests — set only on the deployment hosting the public demo. |
 
 The defaults are enough to start the app locally, but `JWT_SECRET` and
 `RESEND_API_KEY` should always be set to real values outside of local dev —

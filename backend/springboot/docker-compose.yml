@@ -25,6 +25,9 @@ services:
       JWT_SECRET: ${JWT_SECRET:-dev-only-secret-key-change-me-before-any-real-deploy-0123456789}
       RESEND_API_KEY: ${RESEND_API_KEY:-}
       MAIL_FROM: ${MAIL_FROM:-onboarding@resend.dev}
+      DEMO_ACCOUNTS: ${DEMO_ACCOUNTS:-}
+      DEMO_READONLY_ACCOUNTS: ${DEMO_READONLY_ACCOUNTS:-}
+      ADMIN_SEED_KEY: ${ADMIN_SEED_KEY:-}
     depends_on:
       mysql:
         condition: service_healthy

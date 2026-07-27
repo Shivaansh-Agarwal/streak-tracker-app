@@ -3,6 +3,7 @@ package com.progresstracker.controller;
 import com.progresstracker.dto.UpdateProfileRequest;
 import com.progresstracker.dto.UserProfileResponse;
 import com.progresstracker.security.AuthenticatedUser;
+import com.progresstracker.security.DemoAccountGuard;
 import com.progresstracker.service.ProfileService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,9 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProfileController {
 
     private final ProfileService profileService;
+    private final DemoAccountGuard demoAccountGuard;
 
-    public ProfileController(ProfileService profileService) {
+    public ProfileController(ProfileService profileService, DemoAccountGuard demoAccountGuard) {
         this.profileService = profileService;
+        this.demoAccountGuard = demoAccountGuard;
     }
 
     @GetMapping
@@ -29,6 +32,7 @@ public class ProfileController {
     @PatchMapping
     public UserProfileResponse updateProfile(
             @AuthenticationPrincipal AuthenticatedUser user, @RequestBody UpdateProfileRequest request) {
+        demoAccountGuard.assertNotReadonly(user);
         return profileService.updateProfile(user.id(), request);
     }
 }

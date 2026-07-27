@@ -1,6 +1,7 @@
 package com.progresstracker.service;
 
 import com.progresstracker.exception.ApiException;
+import com.progresstracker.config.DemoAccountProperties;
 import com.progresstracker.config.OtpProperties;
 import com.progresstracker.entity.OtpChallenge;
 import com.progresstracker.repository.OtpChallengeRepository;
@@ -15,21 +16,25 @@ import org.springframework.transaction.annotation.Transactional;
 public class OtpService {
 
     private static final SecureRandom SECURE_RANDOM = new SecureRandom();
+    private static final String DEMO_OTP = "123456";
 
     private final OtpChallengeRepository otpChallengeRepository;
     private final PasswordEncoder passwordEncoder;
     private final MailService mailService;
     private final OtpProperties properties;
+    private final DemoAccountProperties demoAccountProperties;
 
     public OtpService(
             OtpChallengeRepository otpChallengeRepository,
             PasswordEncoder passwordEncoder,
             MailService mailService,
-            OtpProperties properties) {
+            OtpProperties properties,
+            DemoAccountProperties demoAccountProperties) {
         this.otpChallengeRepository = otpChallengeRepository;
         this.passwordEncoder = passwordEncoder;
         this.mailService = mailService;
         this.properties = properties;
+        this.demoAccountProperties = demoAccountProperties;
     }
 
     @Transactional
@@ -55,6 +60,16 @@ public class OtpService {
 
     @Transactional
     public void verifyOtp(String email, String otp) {
+        // Demo accounts never had a real challenge generated (see
+        // AuthService.login) - short-circuit on the fixed code instead of
+        // looking one up.
+        if (demoAccountProperties.isDemoAccount(email)) {
+            if (!DEMO_OTP.equals(otp)) {
+                throw new ApiException(HttpStatus.BAD_REQUEST, "Incorrect verification code");
+            }
+            return;
+        }
+
         OtpChallenge challenge = otpChallengeRepository.findTopByEmailOrderByCreatedAtDesc(email)
                 .orElseThrow(() -> new ApiException(HttpStatus.BAD_REQUEST, "No verification code found for this email"));
 

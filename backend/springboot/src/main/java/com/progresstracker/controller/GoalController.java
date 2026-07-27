@@ -3,6 +3,7 @@ package com.progresstracker.controller;
 import com.progresstracker.dto.GoalRequest;
 import com.progresstracker.dto.GoalResponse;
 import com.progresstracker.security.AuthenticatedUser;
+import com.progresstracker.security.DemoAccountGuard;
 import com.progresstracker.service.GoalService;
 import jakarta.validation.Valid;
 import java.util.List;
@@ -22,9 +23,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class GoalController {
 
     private final GoalService goalService;
+    private final DemoAccountGuard demoAccountGuard;
 
-    public GoalController(GoalService goalService) {
+    public GoalController(GoalService goalService, DemoAccountGuard demoAccountGuard) {
         this.goalService = goalService;
+        this.demoAccountGuard = demoAccountGuard;
     }
 
     @GetMapping
@@ -34,6 +37,7 @@ public class GoalController {
 
     @PostMapping
     public GoalResponse create(@AuthenticationPrincipal AuthenticatedUser user, @Valid @RequestBody GoalRequest request) {
+        demoAccountGuard.assertNotReadonly(user);
         return goalService.create(user.id(), request);
     }
 
@@ -42,11 +46,13 @@ public class GoalController {
             @AuthenticationPrincipal AuthenticatedUser user,
             @PathVariable Long id,
             @Valid @RequestBody GoalRequest request) {
+        demoAccountGuard.assertNotReadonly(user);
         return goalService.update(user.id(), id, request);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@AuthenticationPrincipal AuthenticatedUser user, @PathVariable Long id) {
+        demoAccountGuard.assertNotReadonly(user);
         goalService.delete(user.id(), id);
         return ResponseEntity.noContent().build();
     }

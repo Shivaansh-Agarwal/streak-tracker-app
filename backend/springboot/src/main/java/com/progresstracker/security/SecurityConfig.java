@@ -18,8 +18,11 @@ public class SecurityConfig {
 
     // Public routes (no cookie required) also list private ones implicitly
     // via anyRequest().authenticated() - see docs/02-backend-hld.md Section 4.
+    // /admin/** is here too - it uses its own shared-secret header check
+    // (AdminController) instead of the JWT cookie, since it's not a
+    // user-facing route.
     private static final String[] PUBLIC_ROUTES = {
-            "/auth/login", "/auth/verify-otp", "/auth/refresh", "/public/**"
+            "/auth/login", "/auth/verify-otp", "/auth/refresh", "/public/**", "/admin/**"
     };
 
     @Bean

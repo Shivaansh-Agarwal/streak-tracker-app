@@ -13,6 +13,8 @@ public interface LogEntryRepository extends JpaRepository<LogEntry, Long> {
 
     Optional<LogEntry> findByIdAndUserId(Long id, Long userId);
 
+    void deleteAllByUserId(Long userId);
+
     List<LogEntry> findAllByUserIdAndLogDateBetweenOrderByStartTimeAsc(
             Long userId, LocalDate startInclusive, LocalDate endInclusive);
 

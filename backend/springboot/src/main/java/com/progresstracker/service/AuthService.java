@@ -1,6 +1,7 @@
 package com.progresstracker.service;
 
 import com.progresstracker.exception.ApiException;
+import com.progresstracker.config.DemoAccountProperties;
 import com.progresstracker.entity.RefreshToken;
 import com.progresstracker.entity.User;
 import com.progresstracker.entity.UserStatus;
@@ -26,6 +27,7 @@ public class AuthService {
     private final JwtService jwtService;
     private final TokenHasher tokenHasher;
     private final CookieUtil cookieUtil;
+    private final DemoAccountProperties demoAccountProperties;
 
     public AuthService(
             UserRepository userRepository,
@@ -33,13 +35,15 @@ public class AuthService {
             OtpService otpService,
             JwtService jwtService,
             TokenHasher tokenHasher,
-            CookieUtil cookieUtil) {
+            CookieUtil cookieUtil,
+            DemoAccountProperties demoAccountProperties) {
         this.userRepository = userRepository;
         this.refreshTokenRepository = refreshTokenRepository;
         this.otpService = otpService;
         this.jwtService = jwtService;
         this.tokenHasher = tokenHasher;
         this.cookieUtil = cookieUtil;
+        this.demoAccountProperties = demoAccountProperties;
     }
 
     @Transactional
@@ -50,7 +54,12 @@ public class AuthService {
                         .status(UserStatus.PENDING_PROFILE)
                         .isPublic(false)
                         .build()));
-        otpService.generateAndSendOtp(email);
+        // Demo accounts use a fixed OTP (see OtpService.verifyOtp) - skip
+        // real delivery entirely so logins don't consume email quota or spam
+        // whatever real inbox happens to own that address.
+        if (!demoAccountProperties.isDemoAccount(email)) {
+            otpService.generateAndSendOtp(email);
+        }
     }
 
     @Transactional
