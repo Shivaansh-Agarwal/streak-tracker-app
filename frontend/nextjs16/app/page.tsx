@@ -6,7 +6,6 @@ export default function Home() {
   return (
     <div className="flex flex-1 flex-col">
       <Header />
-
       <main className="mx-auto flex w-full max-w-4xl flex-1 flex-col items-center justify-center gap-10 px-6 py-16 text-center">
         <StaticHeatmap />
         <div className="flex flex-col items-center gap-4">

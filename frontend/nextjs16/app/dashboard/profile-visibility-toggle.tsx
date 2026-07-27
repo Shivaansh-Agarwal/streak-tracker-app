@@ -1,10 +1,15 @@
 "use client";
 
 import { useState } from "react";
-import { useProfile } from "./profile-context";
+import type { Profile } from "@/lib/types";
 
-export default function ProfileVisibilityToggle() {
-  const { profile, setProfile } = useProfile();
+export default function ProfileVisibilityToggle({
+  profile,
+  setProfile,
+}: {
+  profile: Profile;
+  setProfile: (profile: Profile) => void;
+}) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 

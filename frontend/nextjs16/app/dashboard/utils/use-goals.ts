@@ -29,10 +29,6 @@ export default function useGoals() {
   }, []);
 
   useEffect(() => {
-    // Deliberate: this hand-rolled fetch+loading-state pattern (chosen over
-    // a data-fetching library) always sets loading state synchronously
-    // before the request resolves.
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     refetch();
   }, [refetch]);
 
