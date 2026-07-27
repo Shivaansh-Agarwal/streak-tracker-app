@@ -1,8 +1,18 @@
 import Link from "next/link";
 
 const MONTH_NAMES = [
-  "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec",
 ];
 
 export default function PublicMonthTabs({
@@ -18,7 +28,8 @@ export default function PublicMonthTabs({
     <div className="flex flex-wrap gap-1">
       {MONTH_NAMES.map((name, index) => {
         const monthNumber = index + 1;
-        const enabled = monthsWithLogs.has(monthNumber) || monthNumber === month;
+        const enabled =
+          monthsWithLogs.has(monthNumber) || monthNumber === month;
         const selected = monthNumber === month;
         const className = `rounded-md border px-2 py-1 text-xs transition-colors ${
           selected
@@ -37,7 +48,11 @@ export default function PublicMonthTabs({
         }
 
         return (
-          <Link key={name} href={`?year=${year}&month=${monthNumber}`} className={className}>
+          <Link
+            key={name}
+            href={`?year=${year}&month=${monthNumber}`}
+            className={className}
+          >
             {name}
           </Link>
         );

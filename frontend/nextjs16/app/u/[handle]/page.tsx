@@ -6,9 +6,6 @@ import PublicLogList from "./public-log-list";
 import monthsWithLogs from "@/lib/months-with-logs";
 import type { HeatmapDay, LogEntry } from "@/lib/types";
 
-// Server component fetch happens inside the Next.js server process itself,
-// so this bypasses the browser-facing /api/* rewrite and hits the backend's
-// internal URL directly - same pattern as the dashboard layout's auth check.
 const backendUrl = process.env.BACKEND_INTERNAL_URL ?? "http://localhost:8080";
 
 const now = new Date();

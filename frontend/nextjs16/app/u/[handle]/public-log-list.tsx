@@ -17,7 +17,10 @@ export default function PublicLogList({ logs }: { logs: LogEntry[] }) {
           </h3>
           <ul className="flex flex-col gap-3">
             {dateLogs.map((log) => (
-              <li key={log.id} className="flex flex-col gap-1 border-b border-border pb-3">
+              <li
+                key={log.id}
+                className="flex flex-col gap-1 border-b border-border pb-3"
+              >
                 <p className="text-sm font-medium">{log.goalTitle}</p>
                 <p className="text-sm">{log.description}</p>
                 <p className="text-xs text-muted">{formatLogRange(log)}</p>
