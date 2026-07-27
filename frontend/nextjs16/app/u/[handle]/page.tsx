@@ -1,8 +1,8 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { Heatmap } from "@/app/dashboard/Heatmap";
-import { PublicMonthTabs } from "./PublicMonthTabs";
-import { PublicLogList } from "./PublicLogList";
+import HeatmapByMonth from "@/components/heatmap/heatmap-by-month";
+import { PublicMonthTabs } from "./public-month-tabs";
+import { PublicLogList } from "./public-log-list";
 import { monthsWithLogs } from "@/lib/monthsWithLogs";
 import type { HeatmapDay, LogEntry } from "@/lib/types";
 
@@ -34,7 +34,9 @@ export default async function PublicProfilePage({
   const year = Number(search.year) || currentYear;
   const month = Number(search.month) || currentMonth;
 
-  const profileResponse = await fetch(`${backendUrl}/public/${handle}`, { cache: "no-store" });
+  const profileResponse = await fetch(`${backendUrl}/public/${handle}`, {
+    cache: "no-store",
+  });
 
   if (profileResponse.status === 404) {
     notFound();
@@ -43,7 +45,9 @@ export default async function PublicProfilePage({
     return (
       <div className="flex flex-1 flex-col items-center justify-center gap-2 px-6 text-center">
         <h1 className="text-2xl font-semibold">This profile is private</h1>
-        <p className="text-muted">@{handle} hasn&apos;t made their progress public.</p>
+        <p className="text-muted">
+          @{handle} hasn&apos;t made their progress public.
+        </p>
       </div>
     );
   }
@@ -54,11 +58,17 @@ export default async function PublicProfilePage({
   const profile: PublicProfile = await profileResponse.json();
 
   const [heatmapResponse, logsResponse] = await Promise.all([
-    fetch(`${backendUrl}/public/${handle}/heatmap?year=${year}`, { cache: "no-store" }),
-    fetch(`${backendUrl}/public/${handle}/logs?year=${year}&month=${month}`, { cache: "no-store" }),
+    fetch(`${backendUrl}/public/${handle}/heatmap?year=${year}`, {
+      cache: "no-store",
+    }),
+    fetch(`${backendUrl}/public/${handle}/logs?year=${year}&month=${month}`, {
+      cache: "no-store",
+    }),
   ]);
 
-  const days: HeatmapDay[] = heatmapResponse.ok ? await heatmapResponse.json() : [];
+  const days: HeatmapDay[] = heatmapResponse.ok
+    ? await heatmapResponse.json()
+    : [];
   const logs: LogEntry[] = logsResponse.ok ? await logsResponse.json() : [];
 
   return (
@@ -77,7 +87,9 @@ export default async function PublicProfilePage({
                 key={y}
                 href={`?year=${y}&month=${month}`}
                 className={`rounded-md px-2 py-1 ${
-                  y === year ? "bg-accent text-white" : "text-muted hover:text-foreground"
+                  y === year
+                    ? "bg-accent text-white"
+                    : "text-muted hover:text-foreground"
                 }`}
               >
                 {y}
@@ -85,12 +97,16 @@ export default async function PublicProfilePage({
             ))}
           </div>
         </div>
-        <Heatmap days={days} loading={false} error="" />
+        <HeatmapByMonth days={days} loading={false} error="" />
       </section>
 
       <section className="flex flex-col gap-4 rounded-lg border border-border p-6 shadow-sm">
         <h2 className="text-2xl font-semibold">Logs</h2>
-        <PublicMonthTabs year={year} month={month} monthsWithLogs={monthsWithLogs(days)} />
+        <PublicMonthTabs
+          year={year}
+          month={month}
+          monthsWithLogs={monthsWithLogs(days)}
+        />
         <PublicLogList logs={logs} />
       </section>
     </div>

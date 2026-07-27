@@ -1,18 +1,19 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useGoals } from "@/lib/hooks/useGoals";
 import { useLogs } from "@/lib/hooks/useLogs";
 import { useHeatmap } from "@/lib/hooks/useHeatmap";
-import { useProfile } from "./ProfileContext";
-import { ProfileVisibilityToggle } from "./ProfileVisibilityToggle";
-import { GoalManager } from "./GoalManager";
-import { AddLogForm } from "./AddLogForm";
-import { Heatmap } from "./Heatmap";
-import { LogList } from "./LogList";
-import { MonthTabs } from "./MonthTabs";
-import { YearSelect } from "./YearSelect";
-import { LogoutButton } from "./LogoutButton";
+import { useProfile } from "./profile-context";
+import { ProfileVisibilityToggle } from "./profile-visibility-toggle";
+import { GoalManager } from "./goal-manager";
+import { Modal } from "@/components/modal";
+import { AddLogForm } from "./add-log-form";
+import HeatmapByMonth from "@/components/heatmap/heatmap-by-month";
+import { LogList } from "./log-list";
+import { MonthTabs } from "./month-tabs";
+import { YearSelect } from "./year-select";
+import { LogoutButton } from "./logout-button";
 import { monthsWithLogs } from "@/lib/monthsWithLogs";
 import type { LogEntry } from "@/lib/types";
 
@@ -25,6 +26,8 @@ export default function DashboardPage() {
   const [year, setYear] = useState(currentYear);
   const [month, setMonth] = useState(currentMonth);
   const [editingLog, setEditingLog] = useState<LogEntry | null>(null);
+  const [goalsModalOpen, setGoalsModalOpen] = useState(false);
+  const editLogSectionRef = useRef<HTMLElement>(null);
 
   const goalsState = useGoals();
   const logsState = useLogs(year, month);
@@ -33,6 +36,11 @@ export default function DashboardPage() {
   function refreshLogsAndHeatmap() {
     logsState.refetch();
     heatmapState.refetch();
+  }
+
+  function handleEditLog(log: LogEntry) {
+    setEditingLog(log);
+    editLogSectionRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
   return (
@@ -48,19 +56,10 @@ export default function DashboardPage() {
         <LogoutButton />
       </header>
 
-      <section className="flex flex-col gap-4 rounded-lg border border-border p-6 shadow-sm">
-        <h2 className="text-2xl font-semibold">Goals</h2>
-        <GoalManager
-          goals={goalsState.goals}
-          loading={goalsState.loading}
-          error={goalsState.error}
-          createGoal={goalsState.createGoal}
-          renameGoal={goalsState.renameGoal}
-          deleteGoal={goalsState.deleteGoal}
-        />
-      </section>
-
-      <section className="flex flex-col gap-4 rounded-lg border border-border p-6 shadow-sm">
+      <section
+        ref={editLogSectionRef}
+        className="flex flex-col gap-4 rounded-lg border border-border p-6 shadow-sm"
+      >
         <h2 className="text-2xl font-semibold">
           {editingLog ? "Edit log" : "Add a log"}
         </h2>
@@ -75,12 +74,37 @@ export default function DashboardPage() {
         />
       </section>
 
+      <section className="flex items-center justify-between rounded-lg border border-border p-6 shadow-sm">
+        <h2 className="text-2xl font-semibold">Goals</h2>
+        <button
+          onClick={() => setGoalsModalOpen(true)}
+          className="rounded-md bg-accent px-4 py-2 text-sm text-white transition-colors hover:bg-accent-hover"
+        >
+          Manage goals
+        </button>
+      </section>
+
+      <Modal
+        open={goalsModalOpen}
+        onClose={() => setGoalsModalOpen(false)}
+        title="Manage goals"
+      >
+        <GoalManager
+          goals={goalsState.goals}
+          loading={goalsState.loading}
+          error={goalsState.error}
+          createGoal={goalsState.createGoal}
+          renameGoal={goalsState.renameGoal}
+          deleteGoal={goalsState.deleteGoal}
+        />
+      </Modal>
+
       <section className="flex flex-col gap-4 rounded-lg border border-border p-6 shadow-sm">
         <div className="flex items-center justify-between">
           <h2 className="text-2xl font-semibold">Heatmap</h2>
           <YearSelect year={year} onChange={setYear} />
         </div>
-        <Heatmap
+        <HeatmapByMonth
           days={heatmapState.days}
           loading={heatmapState.loading}
           error={heatmapState.error}
@@ -98,7 +122,7 @@ export default function DashboardPage() {
           logs={logsState.logs}
           loading={logsState.loading}
           error={logsState.error}
-          onEdit={setEditingLog}
+          onEdit={handleEditLog}
           deleteLog={logsState.deleteLog}
           onDeleted={refreshLogsAndHeatmap}
         />

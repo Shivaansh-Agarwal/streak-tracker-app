@@ -1,12 +1,22 @@
 import type { HeatmapDay } from "@/lib/types";
-import { heatmapCellColor } from "@/lib/heatmapColor";
+import { heatmapCellColor } from "@/components/heatmap/heatmap-util";
 
 const MONTH_NAMES = [
-  "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec",
 ];
 
-export function Heatmap({
+function HeatmapByMonth({
   days,
   loading,
   error,
@@ -15,7 +25,11 @@ export function Heatmap({
   loading: boolean;
   error: string;
 }) {
-  if (loading) return <p className="text-sm text-muted">Loading heatmap...</p>;
+  // Only blank the grid on the very first load. On a year switch, days
+  // already holds the previous year's data while the new one is fetched -
+  // keep showing it (dimmed) instead of collapsing all 12 rows to a single
+  // line, which caused a large layout shift and scroll jump.
+  if (loading && days.length === 0) return <p className="text-sm text-muted">Loading heatmap...</p>;
   if (error) return <p className="text-sm text-red-700">{error}</p>;
 
   const byMonth: HeatmapDay[][] = Array.from({ length: 12 }, () => []);
@@ -28,10 +42,12 @@ export function Heatmap({
   }
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className={`flex flex-col gap-2 transition-opacity ${loading ? "opacity-50" : ""}`}>
       {byMonth.map((monthDays, index) => (
         <div key={index} className="flex items-center gap-2">
-          <span className="w-8 shrink-0 text-xs text-muted">{MONTH_NAMES[index]}</span>
+          <span className="w-8 shrink-0 text-xs text-muted">
+            {MONTH_NAMES[index]}
+          </span>
           <div className="flex flex-wrap gap-1">
             {monthDays.map((day) => (
               <div
@@ -47,3 +63,5 @@ export function Heatmap({
     </div>
   );
 }
+
+export default HeatmapByMonth;

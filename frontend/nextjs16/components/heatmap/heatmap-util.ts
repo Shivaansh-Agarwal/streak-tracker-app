@@ -1,5 +1,3 @@
-// 0h -> gray, scaling up to darkest green at 12h+ (capped). Shared between
-// the real dashboard heatmap and the marketing page's decorative preview.
 export function heatmapCellColor(hours: number) {
   if (hours <= 0) return "#e7e5e4";
   const intensity = Math.min(hours, 12) / 12;

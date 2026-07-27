@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useProfile } from "./ProfileContext";
+import { useProfile } from "./profile-context";
 
 export function ProfileVisibilityToggle() {
   const { profile, setProfile } = useProfile();
