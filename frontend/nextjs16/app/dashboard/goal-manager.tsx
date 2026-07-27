@@ -3,7 +3,7 @@
 import { useState } from "react";
 import type { Goal } from "@/lib/types";
 
-export function GoalManager({
+export default function GoalManager({
   goals,
   loading,
   error,

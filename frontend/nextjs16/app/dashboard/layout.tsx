@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { ProfileProvider } from "./profile-context";
-import { ProfileSetupForm } from "./profile-setup-form";
+import ProfileSetupForm from "./profile-setup-form";
 import type { Profile } from "@/lib/types";
 
 // Server components run inside the Next.js server process itself, so this

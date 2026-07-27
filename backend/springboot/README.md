@@ -1,7 +1,5 @@
 # Progress Tracker — Spring Boot backend
 
-This documentation contains mostly OS agnostic steps but since I'm using MacOS some steps specific to MacOS. 
-
 ## 1. Tech stack
 
 - Java 25

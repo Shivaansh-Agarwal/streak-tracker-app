@@ -1,9 +1,9 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import HeatmapByMonth from "@/components/heatmap/heatmap-by-month";
-import { PublicMonthTabs } from "./public-month-tabs";
-import { PublicLogList } from "./public-log-list";
-import { monthsWithLogs } from "@/lib/monthsWithLogs";
+import PublicMonthTabs from "./public-month-tabs";
+import PublicLogList from "./public-log-list";
+import monthsWithLogs from "@/lib/months-with-logs";
 import type { HeatmapDay, LogEntry } from "@/lib/types";
 
 // Server component fetch happens inside the Next.js server process itself,

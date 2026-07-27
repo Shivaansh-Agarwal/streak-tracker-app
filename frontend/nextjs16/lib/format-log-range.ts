@@ -1,6 +1,6 @@
 import type { LogEntry } from "@/lib/types";
 
-export function formatLogRange(log: LogEntry) {
+export default function formatLogRange(log: LogEntry) {
   const formatter = new Intl.DateTimeFormat("en-US", {
     timeZone: log.timezone,
     hour: "2-digit",

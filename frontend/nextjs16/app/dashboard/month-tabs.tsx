@@ -3,7 +3,7 @@ const MONTH_NAMES = [
   "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
 ];
 
-export function MonthTabs({
+export default function MonthTabs({
   month,
   monthsWithLogs,
   onChange,

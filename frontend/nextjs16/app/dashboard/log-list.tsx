@@ -2,11 +2,11 @@
 
 import { useState } from "react";
 import type { LogEntry } from "@/lib/types";
-import { formatLogRange } from "@/lib/formatLogRange";
-import { groupLogsByDate } from "@/lib/groupLogsByDate";
-import { formatDateDMY } from "@/lib/formatDateDMY";
+import formatLogRange from "@/lib/format-log-range";
+import groupLogsByDate from "@/lib/group-logs-by-date";
+import formatDateDMY from "@/lib/format-date-dmy";
 
-export function LogList({
+export default function LogList({
   logs,
   loading,
   error,

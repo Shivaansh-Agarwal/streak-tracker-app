@@ -1,4 +1,4 @@
-import { GITHUB_URL } from "@/lib/constants";
+import GITHUB_URL from "@/lib/constants";
 import Image from "next/image";
 
 function Header() {

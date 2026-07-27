@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import type { Goal, LogEntry } from "@/lib/types";
-import type { LogInput } from "@/lib/hooks/useLogs";
+import type { LogInput } from "@/app/dashboard/utils/use-logs";
 
 // datetime-local inputs work in the browser's own local time, with no
 // timezone in the value itself - `new Date(value)`/`.toISOString()` handles
@@ -17,7 +17,7 @@ function toDatetimeLocal(iso: string) {
   return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}`;
 }
 
-export function AddLogForm({
+export default function AddLogForm({
   goals,
   editingLog,
   onDoneEditing,

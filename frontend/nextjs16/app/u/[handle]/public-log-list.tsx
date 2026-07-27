@@ -1,9 +1,9 @@
 import type { LogEntry } from "@/lib/types";
-import { formatLogRange } from "@/lib/formatLogRange";
-import { groupLogsByDate } from "@/lib/groupLogsByDate";
-import { formatDateDMY } from "@/lib/formatDateDMY";
+import formatLogRange from "@/lib/format-log-range";
+import groupLogsByDate from "@/lib/group-logs-by-date";
+import formatDateDMY from "@/lib/format-date-dmy";
 
-export function PublicLogList({ logs }: { logs: LogEntry[] }) {
+export default function PublicLogList({ logs }: { logs: LogEntry[] }) {
   if (logs.length === 0) {
     return <p className="text-sm text-muted">No logs for this month.</p>;
   }

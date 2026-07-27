@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 
-export function Modal({
+export default function Modal({
   open,
   onClose,
   title,

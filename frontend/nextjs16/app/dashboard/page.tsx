@@ -1,20 +1,20 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { useGoals } from "@/lib/hooks/useGoals";
-import { useLogs } from "@/lib/hooks/useLogs";
-import { useHeatmap } from "@/lib/hooks/useHeatmap";
+import useGoals from "@/app/dashboard/utils/use-goals";
+import { useLogs } from "@/app/dashboard/utils/use-logs";
+import useHeatmap from "@/app/dashboard/utils/use-heatmap";
 import { useProfile } from "./profile-context";
-import { ProfileVisibilityToggle } from "./profile-visibility-toggle";
-import { GoalManager } from "./goal-manager";
-import { Modal } from "@/components/modal";
-import { AddLogForm } from "./add-log-form";
+import ProfileVisibilityToggle from "./profile-visibility-toggle";
+import GoalManager from "./goal-manager";
+import Modal from "@/components/modal";
+import AddLogForm from "./add-log-form";
 import HeatmapByMonth from "@/components/heatmap/heatmap-by-month";
-import { LogList } from "./log-list";
-import { MonthTabs } from "./month-tabs";
-import { YearSelect } from "./year-select";
-import { LogoutButton } from "./logout-button";
-import { monthsWithLogs } from "@/lib/monthsWithLogs";
+import LogList from "./log-list";
+import MonthTabs from "./month-tabs";
+import YearSelect from "./year-select";
+import LogoutButton from "./logout-button";
+import monthsWithLogs from "@/lib/months-with-logs";
 import type { LogEntry } from "@/lib/types";
 
 const now = new Date();

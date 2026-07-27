@@ -1,4 +1,4 @@
-import { heatmapCellColor } from "@/components/heatmap/heatmap-util";
+import heatmapCellColor from "@/components/heatmap/heatmap-util";
 
 const PATTERN = [
   0, 0, 3, 6, 0, 9, 2, 0, 5, 8, 0, 1, 1, 4, 0, 7, 10, 0, 3, 6, 9, 0, 2, 5, 0, 8,

@@ -1,5 +1,5 @@
 import type { HeatmapDay } from "@/lib/types";
-import { heatmapCellColor } from "@/components/heatmap/heatmap-util";
+import heatmapCellColor from "@/components/heatmap/heatmap-util";
 
 const MONTH_NAMES = [
   "Jan",

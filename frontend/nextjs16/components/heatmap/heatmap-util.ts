@@ -1,4 +1,4 @@
-export function heatmapCellColor(hours: number) {
+export default function heatmapCellColor(hours: number) {
   if (hours <= 0) return "#e7e5e4";
   const intensity = Math.min(hours, 12) / 12;
   const start = { r: 187, g: 226, b: 194 };

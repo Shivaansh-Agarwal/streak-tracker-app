@@ -2,7 +2,7 @@
 // expires after ~15 minutes; on a 401 this tries one silent refresh (via the
 // refresh cookie) and retries the request once. If the refresh also fails,
 // the session is gone, so we hard-redirect to /login.
-export async function authFetch(input: string, init?: RequestInit): Promise<Response> {
+export default async function authFetch(input: string, init?: RequestInit): Promise<Response> {
   const response = await fetch(input, init);
   if (response.status !== 401) {
     return response;

@@ -1,10 +1,10 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { authFetch } from "@/lib/authFetch";
+import authFetch from "@/lib/auth-fetch";
 import type { HeatmapDay } from "@/lib/types";
 
-export function useHeatmap(year: number) {
+export default function useHeatmap(year: number) {
   const [days, setDays] = useState<HeatmapDay[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useProfile } from "./profile-context";
 
-export function ProfileVisibilityToggle() {
+export default function ProfileVisibilityToggle() {
   const { profile, setProfile } = useProfile();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");

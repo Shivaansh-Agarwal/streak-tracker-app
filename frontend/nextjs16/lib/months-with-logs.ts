@@ -1,6 +1,6 @@
 import type { HeatmapDay } from "@/lib/types";
 
-export function monthsWithLogs(days: HeatmapDay[]) {
+export default function monthsWithLogs(days: HeatmapDay[]) {
   const months = new Set<number>();
   for (const day of days) {
     if (day.hours > 0) {

@@ -1,7 +1,7 @@
 const currentYear = new Date().getFullYear();
 const YEARS = Array.from({ length: 5 }, (_, i) => currentYear - i);
 
-export function YearSelect({
+export default function YearSelect({
   year,
   onChange,
 }: {
