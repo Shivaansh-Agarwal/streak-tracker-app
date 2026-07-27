@@ -27,7 +27,12 @@
       "Bash(curl *)",
       "Bash(docker exec springboot-mysql-1 *)",
       "Bash(javap -p -c 'target/classes/com/progresstracker/entity/User$UserBuilder.class')",
-      "Bash(javap -p target/classes/com/progresstracker/entity/User.class)"
+      "Bash(javap -p target/classes/com/progresstracker/entity/User.class)",
+      "Bash(nslookup nexjs-fe-production.up.railway.app)",
+      "Bash(nslookup nextjs-fe-production.up.railway.app)",
+      "Bash(nslookup up.railway.app)",
+      "Bash(nslookup railway.app)",
+      "Bash(./mvnw -q -o compile)"
     ]
   }
 }

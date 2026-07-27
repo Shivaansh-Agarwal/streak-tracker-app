@@ -46,6 +46,19 @@ export function AddLogForm({
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError("");
+
+    // startTime/endTime are datetime-local strings ("YYYY-MM-DDTHH:mm") - a
+    // plain string slice of the date portion avoids the same UTC-midnight
+    // shift risk as parsing through `new Date()` for a date-only comparison.
+    if (startTime.slice(0, 10) !== endTime.slice(0, 10)) {
+      setError("A log cannot span multiple days");
+      return;
+    }
+    if (new Date(endTime).getTime() - new Date(startTime).getTime() > 12 * 60 * 60 * 1000) {
+      setError("A log cannot be longer than 12 hours");
+      return;
+    }
+
     setLoading(true);
     try {
       const input: LogInput = {

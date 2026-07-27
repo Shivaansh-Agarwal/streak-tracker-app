@@ -12,6 +12,7 @@ import com.progresstracker.repository.GoalRepository;
 import com.progresstracker.repository.LogEntryRepository;
 import com.progresstracker.repository.UserRepository;
 import java.time.DateTimeException;
+import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.Year;
@@ -120,12 +121,21 @@ public class LogService {
             throw new ApiException(HttpStatus.BAD_REQUEST, "End time must be after start time");
         }
 
+        if (Duration.between(request.startTime(), request.endTime()).compareTo(Duration.ofHours(12)) > 0) {
+            throw new ApiException(HttpStatus.BAD_REQUEST, "A log cannot be longer than 12 hours");
+        }
+
+        LocalDate logDate = request.startTime().atZone(zone).toLocalDate();
+        LocalDate endLogDate = request.endTime().atZone(zone).toLocalDate();
+        if (!logDate.equals(endLogDate)) {
+            throw new ApiException(HttpStatus.BAD_REQUEST, "A log cannot span multiple days");
+        }
+
         Instant now = Instant.now();
         if (request.endTime().isAfter(now)) {
             throw new ApiException(HttpStatus.BAD_REQUEST, "Cannot log a time that hasn't happened yet");
         }
 
-        LocalDate logDate = request.startTime().atZone(zone).toLocalDate();
         LocalDate today = now.atZone(zone).toLocalDate();
 
         if (logDate.isAfter(today)) {
