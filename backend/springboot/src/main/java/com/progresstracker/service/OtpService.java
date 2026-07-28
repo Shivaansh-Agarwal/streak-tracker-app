@@ -60,9 +60,6 @@ public class OtpService {
 
     @Transactional
     public void verifyOtp(String email, String otp) {
-        // Demo accounts never had a real challenge generated (see
-        // AuthService.login) - short-circuit on the fixed code instead of
-        // looking one up.
         if (demoAccountProperties.isDemoAccount(email)) {
             if (!DEMO_OTP.equals(otp)) {
                 throw new ApiException(HttpStatus.BAD_REQUEST, "Incorrect verification code");
