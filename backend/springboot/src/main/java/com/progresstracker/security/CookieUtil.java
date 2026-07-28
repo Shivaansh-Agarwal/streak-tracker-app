@@ -12,8 +12,7 @@ public class CookieUtil {
 
     public static final String ACCESS_TOKEN_COOKIE = "access_token";
     public static final String REFRESH_TOKEN_COOKIE = "refresh_token";
-    // Scoped to /auth (not just /auth/refresh) so it's also sent on
-    // /auth/logout, which needs to read it to revoke the token.
+    
     private static final String REFRESH_TOKEN_PATH = "/auth";
 
     public String buildAccessTokenCookie(String token, long maxAgeSeconds) {
