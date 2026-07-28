@@ -23,7 +23,7 @@ https://github.com/TeamShiksha/assignments/blob/prod/streak-tracker-app/README.m
 - A user CANNOT create two logs with overlapping time ranges.
 - A user can edit/delete a log.
 
-*Page Visualization:*
+*Frontend - Pages:*
 - After SignIn, the user will land on his dashboard page.
 - The DashBoard page will contain 3 sections. 1st Section will contain an option to add a new Log. 2nd Section will contain the heatmap. 3rd Section Section will contain the user's logs list.
 - The log list, will be shown for current month by default. There will be a dropdown of years. Then a radiobutton sort of functionality for 12 months of the year. Only 1 button will be selected at one time. And only those buttons will be enabled where the user's logs are present.
