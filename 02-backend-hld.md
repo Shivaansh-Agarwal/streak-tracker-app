@@ -34,7 +34,11 @@
 ### 1.2 Non-Functional Requirements
 
 *Security:*
-- OTP endpoints must be rate-limited per email/IP to prevent abuse. JWTs delivered via httpOnly, Secure, SameSite=Lax cookies (not returned in JSON response bodies). Passwords are never stored (OTP-only auth).
+- OTP requests are rate-limited per email via a resend cooldown, and verify
+  attempts are capped, locking the challenge out after too many wrong
+  guesses. JWTs delivered via httpOnly, Secure, SameSite=Lax cookies (not
+  returned in JSON response bodies). Passwords are never stored (OTP-only
+  auth).
 
 ---
 
@@ -165,11 +169,6 @@ Spring Security config can allow-list them as a single block.
 | GET | `/public/{username}/heatmap?year=` | Public | Same shape as `/logs/heatmap`, scoped to a public profile. |
 | GET | `/public/{username}/logs?year=&month=` | Public | Same shape as `/logs`, scoped to a public profile. |
 
-### 3.6 Open Items Not Yet Resolved
-
-- Exact request/response DTOs and validation error format.
-- OTP resend cooldown / rate-limit thresholds (ties to the rate-limiting NFR).
-
 ---
 
 ## 4. High Level Architecture
@@ -178,34 +177,23 @@ Spring Security config can allow-list them as a single block.
  Browser
    │  (HTML/JSON over HTTPS, JWT in httpOnly cookie)
    ▼
- Next.js app  ──SSR fetch──►  Spring Boot API (single service)
- (dashboard: CSR)                  │   │
- (/u/[handle]: SSR)                │   └──► MySQL (users, goals, log_entries,
-                                   │          refresh_tokens, otp_challenges)
-                                   └──► Email provider (OTP delivery)
+ Next.js app  ──fetch──►  Spring Boot API (single service)
+                              │   │
+                              │   └──► MySQL (users, goals, log_entries,
+                              │          refresh_tokens, otp_challenges)
+                              └──► Email provider (OTP delivery)
 ```
 
-- **Next.js app** — renders `/signin` and `/dashboard` client-side; renders
-  `/u/[handle]` server-side (SSR) for SEO, fetching public data from the
-  Spring Boot API at request time.
+- **Next.js app** — see `03-frontend-hld.md` for routes and rendering per page.
 - **Spring Boot API** — single service, layered internally as
   Controller → Service → Repository. Spring Security Filter Chain sits in
-  front of the controllers as the single authentication gatekeeper (see 4.2).
+  front of the controllers as the single authentication gatekeeper.
 - **MySQL** — one schema, the five tables from Section 2.
 - **Email provider** — external dependency, used only to deliver OTP codes.
 
 ---
 
-## 5. Deep Dives
-
-1. Authentication + Authorization Flow (OTP + JWT lifecycle)
-2. Overlap Detection
-3. Timezone-aware day bucketing
-4. Heatmap aggregation query
-
----
-
-## 6. Deployment
+## 5. Deployment
 
 All three pieces — Next.js frontend, Spring Boot backend, MySQL — are hosted
 on **Railway**, as separate services within one Railway project.
@@ -219,11 +207,11 @@ on **Railway**, as separate services within one Railway project.
 - **Database (MySQL):** Railway's managed MySQL plugin, provisioned in the
   same project.
 
-### 6.1 Same-Origin Cookies via Next.js Rewrites
+### 5.1 Same-Origin Cookies via Next.js Rewrites
 
 The frontend and backend are still two separate Railway services with two
 different underlying URLs — but the browser never needs to know that.
-`next.config.js` uses `rewrites()` to proxy `/api/*` requests from the
+`next.config.ts` uses `rewrites()` to proxy `/api/*` requests from the
 browser to the Spring Boot service's internal URL, server-side, inside the
 Next.js Node process. The browser only ever sees requests to the frontend's
 own domain, so:
@@ -233,14 +221,14 @@ own domain, so:
 - No custom domain purchase or subdomain setup is required to satisfy the
   "live public URL" requirement.
 
-### 6.2 Config & Secrets
+### 5.2 Config & Secrets
 
 Per-service environment variables in Railway (not committed to the repo): DB connection string/credentials, JWT signing secret, email provider API key, and the Spring Boot service's internal URL (used by the Next.js rewrite).
 
-### 6.3 CI/CD
+### 5.3 CI/CD
 
 Railway's GitHub integration auto-deploys each service on push to `main` — no separate pipeline needed for a solo project at this scale.
 
-### 6.4 Open Items (Not Yet Resolved)
+### 5.4 Open Items (Not Yet Resolved)
 
 - Schema migration tooling (e.g. Flyway/Liquibase) for versioning the MySQL schema across deploys.
