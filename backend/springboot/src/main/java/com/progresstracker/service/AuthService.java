@@ -54,9 +54,6 @@ public class AuthService {
                         .status(UserStatus.PENDING_PROFILE)
                         .isPublic(false)
                         .build()));
-        // Demo accounts use a fixed OTP (see OtpService.verifyOtp) - skip
-        // real delivery entirely so logins don't consume email quota or spam
-        // whatever real inbox happens to own that address.
         if (!demoAccountProperties.isDemoAccount(email)) {
             otpService.generateAndSendOtp(email);
         }
